@@ -1,0 +1,66 @@
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  
+  <style type="text/css">
+. {
+	clear:both;
+}
+div#header {
+	height:500px; /* height of image */
+	background-image:url(maxx_37983_3-nums.jpg); /* This image width is in variable below */
+	background-repeat:repeat-x;
+}
+p {
+	font-size: 40px
+}
+  </style>
+</head>
+
+<body>
+	<p id="date" />
+	
+	<p>
+	<img src="maxx_37983_3.jpg" width="50%" />
+	</p>
+	
+	<p>
+	<div id="header" />
+	</p>
+  
+  <script>
+$(document).ready(function() {
+
+	today = new Date();
+
+	function dayOfYear(date) {
+		var onejan = new Date(date.getFullYear(), 0, 1);
+		return Math.ceil((date - onejan) / 86400000);
+	}
+
+	function calcLeftPosition() {
+		var pct = dayOfYear(today) / 365;
+		var divWidth = $('#header').width();
+		var imgWidth = 2712; /* This must match image width */
+		var centerX = pct * imgWidth;
+		return -centerX + divWidth/2;
+	}
+
+	function setHeaderImagePosition() {
+		$('#header').css('backgroundPositionX', calcLeftPosition());
+	}
+	
+	setHeaderImagePosition();
+	
+	$(window).resize(setHeaderImagePosition);	
+	
+	setInterval(function() {
+		//today.setDate(today.getDate()+3)
+		today.setMonth((today.getMonth()+1)%12)
+		setHeaderImagePosition();
+		$('#date').text(today.getFullYear() + "/" + (today.getMonth()+1) + "/"  + today.getDate())
+	}, 500000);
+});
+  </script>
+
+</body>
+</html>
